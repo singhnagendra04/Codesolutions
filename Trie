@@ -1,5 +1,9 @@
 Insertion and Searching in Trie
 
+search time :- O(l)  l:- length of word;
+insert time :- O(1)
+delete time :- O(l)
+
 #include<iostream>
 
 using namespace std;
@@ -28,6 +32,8 @@ class Trie{
 		Trie(){
 			root = new TrieNode('\0');
 		}
+		
+		// insert a word
 		void insertUtil(TrieNode* root,string word){
 			if(word.length() == 0)
 			{
@@ -57,6 +63,8 @@ class Trie{
 			insertUtil(root,word);
 		}
 		
+		
+		// searching any word
 		bool searchUtil(TrieNode* root,string word)
 		{
 			if(word.length() == 0)
@@ -82,6 +90,36 @@ class Trie{
 		{
 			return searchUtil(root,word);
 		}
+		
+		// removal of word
+		
+			void removeUtil(TrieNode* root,string word){
+			if(word.length() == 0)
+			{
+				root->isTerminal = false;
+				return;
+			}
+			
+			int index = word[0]-'a';
+			TrieNode* child;
+			
+			// word will present
+			if(root->children[index] != NULL)
+			{
+				child = root->children[index];
+			}
+			else
+			{  // word is absent
+				root->isTerminal=false;
+			}
+			
+			removeUtil(child,word.substr(1));
+		}
+		
+		void removeWord(string word)
+		{
+			removeUtil(root,word);
+		}
 };
 int main()
 {
@@ -89,6 +127,9 @@ int main()
 	t->insertWord("abcd");
 	t->insertWord("tim");
 	t->insertWord("arm");
-	cout<<"Present or not :- "<<t->searchWord("arm");
+	cout<<"Present or not :- "<<t->searchWord("tim")<<endl;
+	t->removeWord("tim");
+	cout<<"Present or not :- "<<t->searchWord("tim");
+
 	return 0;
 }
