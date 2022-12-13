@@ -1,0 +1,26 @@
+solve using dp
+
+int solve(int arr[],int n,vector<int>&dp)
+    {
+        if(n<0)
+          return 0;
+         
+        if(n == 0)
+           return arr[0];
+           
+        if(dp[n] != -1)
+            return dp[n];
+           
+        int inc = solve(arr,n-2,dp) + arr[n];
+        int exc = solve(arr,n-1,dp) + 0;
+        
+        dp[n]=max(inc,exc);
+        return dp[n];
+    }
+
+  int FindMaxSum(int arr[], int n)
+    {
+        // Your code here
+        vector<int> dp(n,-1);
+        return solve(arr,n-1,dp);
+    }
